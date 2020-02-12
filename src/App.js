@@ -12,7 +12,7 @@ import './App.css';
 
 //You must add your own API key here from Clarifai.
 const app = new Clarifai.App({
- apiKey: '28c5acf1b0e942a19ac51d66c9cdde63'
+ apiKey: process.env.REACT_APP_CLARIFAI_API_KEY
 });
 
 const particlesOptions = {
@@ -113,6 +113,7 @@ class App extends Component {
 
   render() {
     const { isSignedIn, imageUrl, route, box } = this.state;
+    // console.log('KEY ' + app)
     return (
       <div className="App">
          <Particles className='particles'
