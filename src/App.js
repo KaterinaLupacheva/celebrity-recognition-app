@@ -3,6 +3,7 @@ import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
+import Celebs from './components/Celebs/celebs';
 import './App.css';
 
 //You must add your own API key here from Clarifai.
@@ -43,7 +44,8 @@ class App extends Component {
     this.state = {
       input: '',
       imageUrl: '',
-      box: {}
+      box: {},
+      celebs: {}
     }
   }
 
@@ -75,27 +77,22 @@ class App extends Component {
         Clarifai.CELEBRITY_MODEL,
         this.state.input)
       .then(response => {
-        console.log('RESPONSE ' + response)
-        if (response) {
-          fetch('http://localhost:3000/image', {
-            method: 'put',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-              id: this.state.user.id
-            })
-          })
-            .then(response => response.json())
-            .then(count => {
-              this.setState(Object.assign(this.state.user, { entries: count}))
-            })
-        }
+        const celebs = response.outputs[0].data.regions[0].data.concepts;
+        const firstFive = celebs.slice(0,5);
+        const newArray = firstFive.map(celeb => ({
+          name: celeb.name,
+          probability: celeb.value
+        }));
+        this.setState({celebs: newArray});
+        console.log(JSON.stringify(newArray, null, 2));
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
       .catch(err => console.log(err));
   }
 
   render() {
-    const { imageUrl, box } = this.state;
+    const { imageUrl, box, celebs } = this.state;
+    
     return (
       <div className="App">
          <Particles className='particles'
@@ -107,6 +104,7 @@ class App extends Component {
               onButtonSubmit={this.onButtonSubmit}
             />
             <FaceRecognition box={box} imageUrl={imageUrl} />
+            {celebs.length > 0 ? <Celebs celebs={celebs} /> : '' }
         </div>
       </div>
     );
