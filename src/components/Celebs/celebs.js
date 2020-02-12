@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Celebs = ({ celebs }) => {
-    console.log('Celebs ' + JSON.stringify(celebs, null, 2))
     return(
         <div className='absolute'>
             {celebs.map(celeb => (
