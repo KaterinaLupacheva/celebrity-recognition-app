@@ -1,12 +1,12 @@
 import React from 'react';
+import './Celebs.css';
 
 const Celebs = ({ celebs }) => {
     return(
-        <div className='absolute'>
+        <div className='celebs'>
             {celebs.map(celeb => (
                 <div key={celeb.probability}>
-                    <h4>{celeb.name}</h4>
-                    <h6>{`${(celeb.probability * 100).toFixed(2)}%`}</h6>
+                    <h2>{celeb.name} - {`${(celeb.probability * 100).toFixed(2)}%`}</h2>
                 </div>
             ))}
             </div>

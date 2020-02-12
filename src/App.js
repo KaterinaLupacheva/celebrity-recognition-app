@@ -105,8 +105,10 @@ class App extends Component {
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
             />
-            <FaceRecognition box={box} imageUrl={imageUrl} />
-            {celebs.length > 0 ? <Celebs celebs={celebs} /> : '' }
+            <div className='image-result'>
+              <FaceRecognition box={box} imageUrl={imageUrl} />
+              {celebs.length > 0 ? <Celebs celebs={celebs} /> : '' }
+            </div>
         </div>
       </div>
     );
