@@ -75,6 +75,7 @@ class App extends Component {
         Clarifai.CELEBRITY_MODEL,
         this.state.input)
       .then(response => {
+        console.log('RESPONSE ' + response)
         if (response) {
           fetch('http://localhost:3000/image', {
             method: 'put',
