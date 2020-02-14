@@ -1,5 +1,6 @@
 {
-  "name": "facerecognitionbrain",
+  "name": "celebrity-recognition-app",
+  "homepage": "https://celebrity.ramonak.io",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
