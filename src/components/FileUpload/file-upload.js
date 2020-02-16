@@ -3,9 +3,11 @@ import './file-upload.css';
 
 const FileUpload = ({encodeImageAsUrl}) => {
 
-
     return(
-        <input id="inputFileToLoad" type="file" onChange={encodeImageAsUrl}/>
+        <div className='file-upload'>
+            <label for='inputFileToLoad' className='custom-file-upload'>Upload image</label>
+            <input id="inputFileToLoad" type="file" onChange={encodeImageAsUrl}/>
+        </div>
     )
 };
 

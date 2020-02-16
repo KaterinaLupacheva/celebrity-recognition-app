@@ -136,15 +136,21 @@ class App extends Component {
           params={particlesOptions}
         />
         <div>
+        <h1 className='f3'>
+          {'Which celebrity do you look like?'}
+        </h1>
+          <div className='inputs'>
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
             />
+            <div className='or'>{'OR'}</div>
             <FileUpload encodeImageAsUrl={this.encodeImageAsUrl} />
-            <div className='image-result'>
-              <FaceRecognition box={box} imageUrl={imageUrl} />
-              {celebs.length > 0 ? <Celebs celebs={celebs} /> : '' }
-            </div>
+          </div>
+          <div className='image-result'>
+            <FaceRecognition box={box} imageUrl={imageUrl} />
+            {celebs.length > 0 ? <Celebs celebs={celebs} /> : '' }
+          </div>
         </div>
       </div>
     );
