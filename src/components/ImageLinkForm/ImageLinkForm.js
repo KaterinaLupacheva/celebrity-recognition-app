@@ -1,5 +1,4 @@
 import React from 'react';
-import './ImageLinkForm.css';
 
 const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
   const handleFocus = (event) => event.target.select();

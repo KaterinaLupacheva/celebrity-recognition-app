@@ -47,7 +47,9 @@ class App extends Component {
       imageUrl: '',
       box: {},
       celebs: {},
-      imageBase64: ''
+      imageBase64: '',
+      width: '',
+      height: ''
     }
   }
 
@@ -57,6 +59,7 @@ class App extends Component {
     
     const width = Number(image.width);
     const height = Number(image.height);
+    this.setState({ width: width, height: height});
     return {
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
@@ -148,7 +151,7 @@ class App extends Component {
             <FileUpload encodeImageAsUrl={this.encodeImageAsUrl} />
           </div>
           <div className='image-result'>
-            <FaceRecognition box={box} imageUrl={imageUrl} />
+            <FaceRecognition box={box} imageUrl={imageUrl} width={this.state.width} height={this.state.height} />
             {celebs.length > 0 ? <Celebs celebs={celebs} /> : '' }
           </div>
         </div>
