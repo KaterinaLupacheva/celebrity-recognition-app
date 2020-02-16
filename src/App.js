@@ -4,6 +4,7 @@ import Clarifai from 'clarifai';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Celebs from './components/Celebs/celebs';
+import FileUpload from './components/FileUpload/file-upload';
 import './App.css';
 
 //You must add your own API key here from Clarifai.
@@ -45,7 +46,8 @@ class App extends Component {
       input: '',
       imageUrl: '',
       box: {},
-      celebs: {}
+      celebs: {},
+      imageBase64: ''
     }
   }
 
@@ -55,7 +57,6 @@ class App extends Component {
     
     const width = Number(image.width);
     const height = Number(image.height);
-    console.log('Image ' + width + ' ' + height);
     return {
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
@@ -86,10 +87,44 @@ class App extends Component {
           probability: celeb.value
         }));
         this.setState({celebs: newArray});
-        console.log(JSON.stringify(newArray, null, 2));
         this.displayFaceBox(this.calculateFaceLocation(response))
       })
       .catch(err => console.log(err));
+  }
+
+  imageDetect = () => {
+    app.models
+      .predict(
+        Clarifai.CELEBRITY_MODEL,
+        {base64: this.state.imageBase64})
+      .then(response => {
+        const celebs = response.outputs[0].data.regions[0].data.concepts;
+        const firstFive = celebs.slice(0,5);
+        const newArray = firstFive.map(celeb => ({
+          name: celeb.name,
+          probability: celeb.value
+        }));
+        this.setState({celebs: newArray});
+        this.displayFaceBox(this.calculateFaceLocation(response))
+      })
+      .catch(err => console.log(err));
+  }
+
+  encodeImageAsUrl = () => {
+    const filesSelected = document.getElementById("inputFileToLoad").files;
+    if (filesSelected.length > 0) {
+        const fileToLoad = filesSelected[0];
+        
+        const fileReader = new FileReader();
+
+        fileReader.onload = () => {
+            this.setState({
+              imageBase64: fileReader.result.split(',')[1],
+              imageUrl: fileReader.result
+            }, () => this.imageDetect());  
+        }
+        fileReader.readAsDataURL(fileToLoad);
+    }
   }
 
   render() {
@@ -105,6 +140,7 @@ class App extends Component {
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
             />
+            <FileUpload encodeImageAsUrl={this.encodeImageAsUrl} />
             <div className='image-result'>
               <FaceRecognition box={box} imageUrl={imageUrl} />
               {celebs.length > 0 ? <Celebs celebs={celebs} /> : '' }
