@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
+import Header from './components/header/header';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Celebs from './components/Celebs/celebs';
@@ -139,9 +140,10 @@ class App extends Component {
           params={particlesOptions}
         />
         <div>
-        <h1 className='f3'>
-          {'Which celebrity do you look like?'}
-        </h1>
+          <Header />
+          <h1 className='f3'>
+            {'Which celebrity do you look like?'}
+          </h1>
           <div className='inputs'>
             <ImageLinkForm
               onInputChange={this.onInputChange}
